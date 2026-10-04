@@ -1,0 +1,60 @@
+name: Cache espresso images
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cache-espresso-images.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cache-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow
+        run: pip install pillow
+      - name: Download and optimize espresso images
+        shell: bash
+        run: |
+          set -e
+          mkdir -p assets/source assets/espresso
+          curl -L --retry 3 --connect-timeout 15 -o assets/source/misto.webp 'https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-07/Misto_Mug_WHITE_2023%201.jpg.webp?h=37196d23&itok=tPjiqK6Z'
+          curl -L --retry 3 --connect-timeout 15 -o assets/source/flat-white.webp 'https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-06/Flat_White_Mug_WHITE_2023.jpg.webp?h=37196d23&itok=QD7gHSbu'
+          curl -L --retry 3 --connect-timeout 15 -o assets/source/espresso.webp 'https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-07/Espresso_Glass_WHITE_2023%201.jpg.webp?h=eeaac09a&itok=NB3b5Jyi'
+          curl -L --retry 3 --connect-timeout 15 -o assets/source/macchiato.webp 'https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-06/Espresso_Macchiato_Mug_WHITE_2023.jpg.webp?h=37196d23&itok=qJuWm4WM'
+          curl -L --retry 3 --connect-timeout 15 -o assets/source/con-panna.webp 'https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-06/Espresso_Con_Panna_Mug_WHITE_2023.jpg.webp?h=37196d23&itok=FV0X6QqB'
+          python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          out = Path('assets/espresso')
+          out.mkdir(parents=True, exist_ok=True)
+          for p in Path('assets/source').glob('*.webp'):
+              im = Image.open(p).convert('RGBA')
+              im.thumbnail((360,360), Image.Resampling.LANCZOS)
+              px = im.load()
+              for y in range(im.height):
+                  for x in range(im.width):
+                      r,g,b,a = px[x,y]
+                      if r >= 246 and g >= 246 and b >= 246:
+                          px[x,y] = (r,g,b,0)
+                      elif r >= 235 and g >= 235 and b >= 235:
+                          # soften near-white edges to avoid a hard halo
+                          strength = max(0, min(255, int((246-max(r,g,b))*23.2)))
+                          px[x,y] = (r,g,b,strength)
+              im.save(out / p.name, 'WEBP', quality=78, method=6)
+          PY
+          rm -rf assets/source
+      - name: Commit optimized local images
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/espresso
+          git diff --cached --quiet || git commit -m 'Cache optimized espresso images locally'
+          git push
