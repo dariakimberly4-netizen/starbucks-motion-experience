@@ -17,6 +17,48 @@ const revealObserver=new IntersectionObserver(entries=>{
 },{root:storyPanel,threshold:.18});
 revealItems.forEach(item=>revealObserver.observe(item));
 
+const motionImages=[...document.querySelectorAll('.scene-image img')];
+const heroImage=document.querySelector('.story-photo-hero>img');
+const heroCopy=document.querySelector('.story-hero-copy');
+const philYear=document.querySelector('.philippines-year');
+let rafPending=false;
+
+function updateStoryMotion(){
+  rafPending=false;
+  if(!storyPanel.classList.contains('open')||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const panelRect=storyPanel.getBoundingClientRect();
+  const viewportH=panelRect.height||window.innerHeight;
+
+  if(heroImage){
+    const y=Math.min(storyPanel.scrollTop,viewportH);
+    heroImage.style.transform=`scale(${1.02+y/viewportH*0.035}) translate3d(0,${y*0.06}px,0)`;
+  }
+  if(heroCopy){
+    const y=Math.min(storyPanel.scrollTop,viewportH);
+    heroCopy.style.transform=`translate3d(0,${y*-0.035}px,0)`;
+  }
+
+  motionImages.forEach((img,index)=>{
+    const box=img.parentElement.getBoundingClientRect();
+    const center=box.top+box.height/2-panelRect.top;
+    const progress=(center-viewportH/2)/viewportH;
+    const drift=Math.max(-1,Math.min(1,progress))*22;
+    const dir=index%2===0?1:-1;
+    img.style.transform=`translate3d(0,${drift*dir}px,0) scale(1.055)`;
+  });
+
+  if(philYear){
+    const box=philYear.parentElement.getBoundingClientRect();
+    const progress=(box.top-panelRect.top)/viewportH;
+    const shift=Math.max(-30,Math.min(30,progress*35));
+    philYear.style.transform=`translate3d(${shift}px,0,0)`;
+  }
+}
+
+storyPanel?.addEventListener('scroll',()=>{
+  if(!rafPending){rafPending=true;requestAnimationFrame(updateStoryMotion)}
+},{passive:true});
+
 let openingTimer;
 function finishOpening(){
   if(!opening)return;
@@ -25,6 +67,7 @@ function finishOpening(){
   setTimeout(()=>{
     opening.classList.remove('active','entering');
     opening.setAttribute('aria-hidden','true');
+    requestAnimationFrame(updateStoryMotion);
   },1100);
 }
 function playOpening(){
@@ -41,6 +84,7 @@ function openStory(){
   if(river)river.style.animationPlayState='paused';
   storyPanel.scrollTop=0;
   revealItems[0]?.classList.add('in-view');
+  requestAnimationFrame(updateStoryMotion);
   playOpening();
 }
 function closeStory(){
