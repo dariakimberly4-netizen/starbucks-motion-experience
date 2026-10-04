@@ -32,7 +32,6 @@
         <article class="coffee-item" aria-label="Espresso"><img class="product-photo" loading="lazy" decoding="async" src="https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-07/Espresso_Glass_WHITE_2023%201.jpg.webp?h=eeaac09a&itok=NB3b5Jyi" alt=""></article>
         <article class="coffee-item" aria-label="Espresso Macchiato"><img class="product-photo" loading="lazy" decoding="async" src="https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-06/Espresso_Macchiato_Mug_WHITE_2023.jpg.webp?h=37196d23&itok=qJuWm4WM" alt=""></article>
         <article class="coffee-item" aria-label="Espresso Con Panna"><img class="product-photo" loading="lazy" decoding="async" src="https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-06/Espresso_Con_Panna_Mug_WHITE_2023.jpg.webp?h=37196d23&itok=FV0X6QqB" alt=""></article>
-
         <article class="coffee-item duplicate" aria-hidden="true"><img class="product-photo" loading="lazy" decoding="async" src="https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-07/Misto_Mug_WHITE_2023%201.jpg.webp?h=37196d23&itok=tPjiqK6Z" alt=""></article>
         <article class="coffee-item duplicate" aria-hidden="true"><img class="product-photo" loading="lazy" decoding="async" src="https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-06/Flat_White_Mug_WHITE_2023.jpg.webp?h=37196d23&itok=QD7gHSbu" alt=""></article>
         <article class="coffee-item duplicate" aria-hidden="true"><img class="product-photo" loading="lazy" decoding="async" src="https://www.starbucks.de/sites/starbucks-de-pwa/files/styles/c04_image_text_grid_600x600/public/2023-07/Espresso_Glass_WHITE_2023%201.jpg.webp?h=eeaac09a&itok=NB3b5Jyi" alt=""></article>
@@ -43,20 +42,48 @@
   </main>
 
   <aside id="storyPanel" class="story" aria-hidden="true">
-    <button id="storyClose" class="story-close" type="button">×</button>
-    <div class="story-inner">
-      <span class="kicker">OUR STORY</span>
-      <h2>FROM BEAN.<br>TO CUP.<br><em>TO YOU.</em></h2>
-      <div class="timeline">
-        <article><b>1971</b><h3>THE BEGINNING</h3><p>The Starbucks story began in Seattle with a passion for exceptional coffee.</p></article>
-        <article><b>1997</b><h3>STARBUCKS PHILIPPINES</h3><p>The story reached the Philippines, creating coffeehouse moments and connections.</p></article>
-        <article><b>01</b><h3>THE BEAN</h3><p>Every espresso begins with coffee selected for character, depth and balance.</p></article>
-        <article><b>02</b><h3>THE SHOT</h3><p>Pressure, heat and timing turn the bean into the concentrated heart of the cup.</p></article>
-        <article><b>03</b><h3>THE CRAFT</h3><p>Milk, foam and espresso meet in different proportions to create distinct experiences.</p></article>
-        <article><b>04</b><h3>THE CONNECTION</h3><p>Every cup becomes part of a larger story shared across Starbucks coffeehouses.</p></article>
+    <button id="storyClose" class="story-close" type="button" aria-label="Close Our Story">×</button>
+
+    <section class="story-hero">
+      <div class="story-hero-copy">
+        <span class="story-eyebrow">STARBUCKS® · OUR STORY</span>
+        <p class="story-years">1971 — TODAY</p>
+        <h2>COFFEE.<br>PEOPLE.<br><em>CONNECTION.</em></h2>
+        <p class="story-lead">A story that started with a love of coffee and grew into millions of everyday moments shared around the world.</p>
       </div>
-      <a class="story-cta" href="https://www.starbucks.ph/about-us">DISCOVER STARBUCKS PHILIPPINES →</a>
-    </div>
+      <div class="story-mark" aria-hidden="true"><span>S</span><i></i><span>71</span></div>
+    </section>
+
+    <section class="story-journey" aria-label="Starbucks story chapters">
+      <article class="story-chapter">
+        <div class="chapter-no">01</div>
+        <div class="chapter-copy"><span>SEATTLE · 1971</span><h3>EVERY STORY STARTS SOMEWHERE.</h3><p>Starbucks began with a simple idea: share exceptional coffee and the craft behind it.</p></div>
+      </article>
+      <article class="story-chapter reverse">
+        <div class="chapter-no">02</div>
+        <div class="chapter-copy"><span>THE COFFEE</span><h3>IT BEGINS WITH THE BEAN.</h3><p>From origin to roast, every cup begins with attention to character, quality and flavor.</p></div>
+      </article>
+      <article class="story-chapter">
+        <div class="chapter-no">03</div>
+        <div class="chapter-copy"><span>THE CRAFT</span><h3>MADE BY HAND. SHARED BY HEART.</h3><p>Espresso, milk and technique come together through the hands of baristas, one drink at a time.</p></div>
+      </article>
+      <article class="story-chapter reverse philippines">
+        <div class="chapter-no">97</div>
+        <div class="chapter-copy"><span>PHILIPPINES · 1997</span><h3>A NEW CHAPTER BEGAN HERE.</h3><p>Starbucks arrived in the Philippines and became part of local routines, conversations and celebrations.</p></div>
+      </article>
+      <article class="story-chapter">
+        <div class="chapter-no">05</div>
+        <div class="chapter-copy"><span>THE THIRD PLACE</span><h3>MORE THAN A COFFEE SHOP.</h3><p>A place to meet. A place to pause. A place to belong. The cup is only the beginning.</p></div>
+      </article>
+    </section>
+
+    <section class="story-finale">
+      <p class="story-quote">“Every cup carries a story forward.”</p>
+      <div class="finale-row">
+        <div><span class="story-eyebrow">FROM BEAN · TO CUP · TO YOU</span><h3>THE STORY CONTINUES.</h3></div>
+        <a class="story-cta" href="https://www.starbucks.ph/about-us">DISCOVER STARBUCKS PHILIPPINES →</a>
+      </div>
+    </section>
   </aside>
 
   <script src="script.js" defer></script>
