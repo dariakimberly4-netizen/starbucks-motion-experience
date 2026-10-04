@@ -1,14 +1,78 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Starbucks Philippines — The Living Menu</title><link rel="stylesheet" href="style.css"></head><body data-scene="coffee">
-<a class="mark" href="https://www.starbucks.ph/" aria-label="Starbucks">STARBUCKS®</a>
-<a class="menu" href="https://dariakimberly4-netizen.github.io/interactive-drink-menu/starbucks-menu-orbit/v89.html?refresh=94#orbit">MENU <b>↗</b></a>
-<div class="scene-title"><small id="eyebrow">THE LIVING MENU / 01</small><h1 id="title">COFFEE<br><em>AT THE CORE.</em></h1><p id="desc">Roasted, brewed and handcrafted around the cup.</p></div>
-<main id="stage">
- <div class="table-grain"></div><div id="ingredients" class="ingredients"></div>
- <div id="orbit" class="orbit"></div>
- <button id="cup" class="cup" aria-label="Drag to explore"><span class="rim"><i class="liquid"></i><i class="foam"></i></span><b>STARBUCKS</b><small>DRAG ME</small></button>
- <div class="orbit-line one"></div><div class="orbit-line two"></div>
- <button id="prev" class="step prev">←</button><button id="next" class="step next">→</button>
-</main>
-<div class="hint">DRAG THE CUP · TAP A CATEGORY</div>
-<section id="storyPanel" class="story-panel"><button id="storyClose">×</button><small>STARBUCKS PHILIPPINES</small><div class="story-bean"></div><h2>FROM ONE<br>BEAN TO<br><em>MILLIONS OF MOMENTS.</em></h2><p>The coffee story continues through every cup, every coffeehouse and every connection.</p><a href="https://www.starbucks.ph/about-us">DISCOVER OUR STORY →</a></section>
-<script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f4efe6" />
+  <title>Starbucks Philippines — Espresso in Motion</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#espresso" aria-label="Starbucks Espresso in Motion">STARBUCKS®</a>
+    <nav aria-label="Primary navigation">
+      <a href="https://dariakimberly4-netizen.github.io/interactive-drink-menu/starbucks-menu-orbit/v89.html?refresh=94#orbit">MENU</a>
+      <button id="storyOpen" type="button">OUR STORY</button>
+    </nav>
+  </header>
+
+  <main id="espresso" class="experience" aria-label="Starbucks Philippines Espresso in Motion">
+    <div class="copy">
+      <span class="kicker">STARBUCKS® PHILIPPINES</span>
+      <h1>ESPRESSO<br><em>IN MOTION.</em></h1>
+      <p id="productDescription">Coffee and steamed milk in a comforting Starbucks classic.</p>
+      <div class="meta"><span>HOT ESPRESSO</span><span id="count">01 / 05</span></div>
+    </div>
+
+    <section class="carousel" aria-label="Five hot espresso drinks">
+      <div class="ghost-name" id="ghostName" aria-hidden="true">CAFFE MISTO</div>
+      <div class="track" id="track">
+        <article class="drink is-active" data-name="Caffe Misto" data-description="Coffee and steamed milk in a comforting Starbucks classic.">
+          <div class="cup tall"><span class="steam s1"></span><span class="steam s2"></span><span class="coffee"></span><span class="foam soft"></span><b>STARBUCKS</b></div>
+          <h2>Caffe Misto</h2>
+        </article>
+        <article class="drink" data-name="Flat White" data-description="Rich espresso with velvety steamed milk for a smooth, balanced cup.">
+          <div class="cup wide"><span class="steam s1"></span><span class="steam s2"></span><span class="coffee"></span><span class="foam dot"></span><b>STARBUCKS</b></div>
+          <h2>Flat White</h2>
+        </article>
+        <article class="drink" data-name="Espresso" data-description="A concentrated espresso with a rich crema and a bold finish.">
+          <div class="cup demitasse"><span class="steam s1"></span><span class="coffee"></span><b>STARBUCKS</b></div>
+          <h2>Espresso</h2>
+        </article>
+        <article class="drink" data-name="Espresso Macchiato" data-description="Espresso marked with a small amount of steamed milk and foam.">
+          <div class="cup demitasse"><span class="steam s1"></span><span class="coffee"></span><span class="foam macchiato"></span><b>STARBUCKS</b></div>
+          <h2>Espresso Macchiato</h2>
+        </article>
+        <article class="drink" data-name="Espresso Con Panna" data-description="Espresso finished with a crown of whipped cream.">
+          <div class="cup demitasse"><span class="steam s1"></span><span class="coffee"></span><span class="foam panna"></span><b>STARBUCKS</b></div>
+          <h2>Espresso Con Panna</h2>
+        </article>
+      </div>
+      <button class="arrow prev" id="prev" type="button" aria-label="Previous espresso">←</button>
+      <button class="arrow next" id="next" type="button" aria-label="Next espresso">→</button>
+    </section>
+
+    <div class="selector" id="selector" aria-label="Choose an espresso"></div>
+    <div class="motion-note">AUTOMATIC MOTION · DRAG OR SWIPE TO EXPLORE</div>
+  </main>
+
+  <aside id="storyPanel" class="story" aria-hidden="true">
+    <button id="storyClose" class="story-close" type="button" aria-label="Close Our Story">×</button>
+    <div class="story-inner">
+      <span class="kicker">OUR STORY</span>
+      <h2>FROM BEAN.<br>TO CUP.<br><em>TO YOU.</em></h2>
+      <div class="timeline">
+        <article><b>1971</b><h3>THE BEGINNING</h3><p>The Starbucks story began in Seattle with a passion for exceptional coffee.</p></article>
+        <article><b>1997</b><h3>STARBUCKS PHILIPPINES</h3><p>The story reached the Philippines, creating new coffeehouse moments and connections.</p></article>
+        <article><b>01</b><h3>THE BEAN</h3><p>Every espresso begins with coffee selected for character, depth and balance.</p></article>
+        <article><b>02</b><h3>THE SHOT</h3><p>Pressure, heat and timing turn the bean into the concentrated heart of the cup.</p></article>
+        <article><b>03</b><h3>THE CRAFT</h3><p>Milk, foam and espresso meet in different proportions to create distinct experiences.</p></article>
+        <article><b>04</b><h3>THE CONNECTION</h3><p>Every cup becomes part of a larger story shared across Starbucks coffeehouses.</p></article>
+      </div>
+      <a class="story-cta" href="https://www.starbucks.ph/about-us">DISCOVER STARBUCKS PHILIPPINES →</a>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
