@@ -1,24 +1,33 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Starbucks Philippines — Espresso Lab</title><link rel="stylesheet" href="style.css"></head><body>
-<div class="shell">
-<header><div class="brand">STARBUCKS® <span>ESPRESSO LAB</span></div><div class="status"><i></i><span id="status">MACHINE READY</span></div><a href="https://dariakimberly4-netizen.github.io/interactive-drink-menu/starbucks-menu-orbit/v89.html?refresh=94#orbit">FULL MENU ↗</a></header>
-<main>
-<section id="machine" class="machine">
-<div class="machine-top"><div class="gauge"><div class="ticks"></div><div id="needle" class="needle"></div><b>PRESSURE</b></div><div class="display"><small>SELECT EXTRACTION</small><strong id="display">READY</strong><div class="timer"><span id="timer">00.0</span> SEC</div></div><div class="beans-window"><div class="beans"></div><span>ESPRESSO ROAST</span></div></div>
-<div class="selector"><button data-shot="RISTRETTO">RISTRETTO<small>SHORT</small></button><button class="selected" data-shot="ESPRESSO">ESPRESSO<small>CLASSIC</small></button><button data-shot="DOPPIO">DOPPIO<small>DOUBLE</small></button></div>
-<div class="brew-zone"><div class="grouphead"><div class="handle"></div><div class="spout s1"></div><div class="spout s2"></div></div><div class="streams"><i></i><i></i></div><div class="lab-cup"><div class="cup-inner"><div class="liquid"></div><div class="crema"></div></div><span>STARBUCKS®<br>ESPRESSO</span></div><div class="driptray"></div></div>
-<button id="brew" class="brew"><span>●</span> START EXTRACTION</button>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Starbucks Philippines — The Espresso Gallery</title><link rel="stylesheet" href="style.css"></head><body>
+<header><a class="brand" href="#gallery">STARBUCKS®</a><div class="counter"><span id="count">01</span> / 06</div><a class="menu" href="https://dariakimberly4-netizen.github.io/interactive-drink-menu/starbucks-menu-orbit/v89.html?refresh=94#orbit">MENU ↗</a></header>
+<main id="gallery">
+<section class="room active" data-index="0" data-tone="dark">
+ <div class="photo hero-photo"><img src="https://about.starbucks.com/uploads/2024/12/Starbucks-FY25-Winter-Promo-076-scaled.jpg" alt="Starbucks espresso beverage"></div>
+ <div class="type"><small>THE ESPRESSO GALLERY / 01</small><h1><span>ESPRESSO</span><em>IS A LANGUAGE.</em></h1><p>One shot. Many expressions.</p></div>
+ <button class="explore" data-open="pure">EXPLORE THE CUP +</button><div class="drag">DRAG TO EXPLORE →</div>
 </section>
-<section id="lab" class="lab hidden">
-<div class="lab-head"><div><small>EXPERIMENT 02</small><h1>BUILD YOUR<br>ESPRESSO.</h1></div><div class="recipe-no"><span id="recipeNo">01</span>/05</div></div>
-<div class="recipe-stage" id="stage">
-<button id="prev" class="arrow">←</button>
-<div class="recipe-glass"><div id="ice" class="ice"></div><div id="coffee" class="coffee"></div><div id="milk" class="milk"></div><div id="foam" class="foam"></div><div class="mark">STARBUCKS®</div></div>
-<div class="recipe-copy"><small id="type">ESPRESSO + WATER</small><h2 id="drink">AMERICANO</h2><p id="desc">Bold espresso extended with water for a clean, intense cup.</p><div class="formula"><span id="f1">ESPRESSO</span><i></i><span id="f2">WATER</span></div></div>
-<button id="next" class="arrow">→</button>
-</div>
-<div class="recipe-nav" id="recipeNav"></div>
+<section class="room cream" data-index="1" data-tone="light">
+ <div class="number">01</div><div class="photo offset-left"><img src="https://about.starbucks.com/uploads/2024/12/Starbucks-FY25-Winter-Promo-076-scaled.jpg" alt="Starbucks coffee"></div>
+ <div class="type right"><small>ROOM 01 / PURE</small><h2>PURE<br><em>ESPRESSO.</em></h2><p>Concentrated. Aromatic. The foundation.</p></div><button class="explore right-btn" data-open="pure">WHAT'S INSIDE +</button>
+</section>
+<section class="room red" data-index="2" data-tone="dark">
+ <div class="number">02</div><div class="photo offset-right"><img src="https://about.starbucks.com/uploads/2024/12/Starbucks-FY25-Winter-Promo-076-scaled.jpg" alt="Starbucks Flat White"></div>
+ <div class="type left"><small>ROOM 02 / SMOOTH</small><h2>FLAT<br><em>WHITE.</em></h2><p>Espresso and velvety microfoam in balance.</p></div><button class="explore" data-open="flat">BREAK IT DOWN +</button>
+</section>
+<section class="room interlude" data-index="3" data-tone="light">
+ <div class="bean-drop"><i></i></div><div class="type center"><small>INTERLUDE</small><h2>BEFORE THE CUP,<br><em>THERE WAS THE BEAN.</em></h2></div>
+ <div class="process"><span class="on">BEAN</span><i></i><span>ROAST</span><i></i><span>GRIND</span><i></i><span>EXTRACTION</span></div>
+</section>
+<section class="room ice" data-index="4" data-tone="dark">
+ <div class="number">05</div><div class="photo wide"><img src="https://about.starbucks.com/uploads/2024/12/Starbucks-FY25-Winter-Promo-076-scaled.jpg" alt="Starbucks iced espresso beverage"></div>
+ <div class="type bottom"><small>ROOM 05 / COLD</small><h2>ESPRESSO,<br><em>REIMAGINED.</em></h2><p>Cold, layered and made to move.</p></div><button class="explore top-btn" data-open="iced">SEE THE LAYERS +</button>
+</section>
+<section class="room philippines" data-index="5" data-tone="dark">
+ <div class="year">1997</div><div class="ph-frame"><img src="https://about.starbucks.com/uploads/2024/12/Starbucks-FY25-Winter-Promo-076-scaled.jpg" alt="Starbucks Philippines coffee story"></div>
+ <div class="type ph-copy"><small>STARBUCKS PHILIPPINES</small><h2>FROM THE FIRST STORE<br><em>TO YOUR NEXT CUP.</em></h2></div>
+ <a class="door" href="https://dariakimberly4-netizen.github.io/interactive-drink-menu/starbucks-menu-orbit/v89.html?refresh=94#orbit"><span>ENTER THE STARBUCKS MENU</span><b>→</b></a>
 </section>
 </main>
-<div id="hotspots" class="hotspots"><button data-info="bean">BEAN</button><button data-info="roast">ROAST</button><button data-info="craft">CRAFT</button><button data-info="ph">PHILIPPINES</button></div>
-<div id="drawer" class="drawer"><button id="close">×</button><small id="drawerTag"></small><h2 id="drawerTitle"></h2><p id="drawerText"></p></div>
-</div><script src="script.js"></script></body></html>
+<nav class="rail"><button id="prev">←</button><div id="dots"></div><button id="next">→</button></nav>
+<div id="recipe" class="recipe"><button id="close">×</button><small id="recipeTag">RECIPE STUDY</small><h3 id="recipeName">ESPRESSO</h3><div class="layers" id="layers"></div><p id="recipeText"></p></div>
+<script src="script.js"></script></body></html>
