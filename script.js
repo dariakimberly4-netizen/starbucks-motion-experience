@@ -1,1 +1,95 @@
-const scenes=[{id:'coffee',label:'COFFEE',title:'COFFEE<br><em>AT THE CORE.</em>',desc:'Roasted, brewed and handcrafted around the cup.',items:'bean'},{id:'frappe',label:'FRAPPUCCINO®',title:'BLENDED<br><em>FOR FUN.</em>',desc:'Creamy, playful and unmistakably Frappuccino®.',items:'cream'},{id:'cold',label:'COLD',title:'KEEP IT<br><em>COOL.</em>',desc:'Iced coffee and refreshing layers made to chill.',items:'ice'},{id:'tea',label:'TEA + REFRESHERS',title:'BRIGHT.<br><em>FRESH.</em>',desc:'Tea, fruit-forward refreshment and another side of Starbucks.',items:'leaf'},{id:'food',label:'FOOD',title:'PAIR<br><em>THE MOMENT.</em>',desc:'A coffee break tastes better with something beside it.',items:'crumb'},{id:'story',label:'OUR STORY',title:'THE STORY<br><em>BEHIND THE CUP.</em>',desc:'Follow the bean beyond the menu.',items:'bean'}];let idx=0,dragX=0;const orbit=document.getElementById('orbit'),ingredients=document.getElementById('ingredients'),title=document.getElementById('title'),desc=document.getElementById('desc'),eye=document.getElementById('eyebrow'),cup=document.getElementById('cup');const pos=[[80,18],[88,43],[82,75],[57,88],[37,78],[41,25]];scenes.forEach((s,i)=>{const b=document.createElement('button');b.innerHTML=s.label;b.style.left=pos[i][0]+'%';b.style.top=pos[i][1]+'%';b.onclick=()=>setScene(i);orbit.appendChild(b)});function setScene(n){idx=(n+scenes.length)%scenes.length;const s=scenes[idx];document.body.dataset.scene=s.id;title.innerHTML=s.title;desc.textContent=s.desc;eye.textContent='THE LIVING MENU / '+String(idx+1).padStart(2,'0');[...orbit.children].forEach((b,i)=>b.classList.toggle('active',i===idx));makeIngredients(s.items);if(s.id==='story')setTimeout(()=>document.getElementById('storyPanel').classList.add('open'),450)}function makeIngredients(type){ingredients.innerHTML='';for(let i=0;i<12;i++){const el=document.createElement('i');el.className='ingredient '+type;el.style.left=(8+Math.random()*84)+'%';el.style.top=(10+Math.random()*80)+'%';el.style.setProperty('--r',(Math.random()*160-80)+'deg');el.style.animationDelay=(-Math.random()*5)+'s';ingredients.appendChild(el)}}document.getElementById('prev').onclick=()=>setScene(idx-1);document.getElementById('next').onclick=()=>setScene(idx+1);cup.addEventListener('pointerdown',e=>{dragX=e.clientX;cup.setPointerCapture(e.pointerId)});cup.addEventListener('pointerup',e=>{const dx=e.clientX-dragX;if(Math.abs(dx)>35)setScene(idx+(dx<0?1:-1))});document.getElementById('storyClose').onclick=()=>document.getElementById('storyPanel').classList.remove('open');setScene(0);
+const drinks=[...document.querySelectorAll('.drink')];
+const track=document.getElementById('track');
+const selector=document.getElementById('selector');
+const ghostName=document.getElementById('ghostName');
+const productDescription=document.getElementById('productDescription');
+const count=document.getElementById('count');
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let index=0;
+let timer=null;
+let dragStart=0;
+let dragging=false;
+
+function buildSelector(){
+  drinks.forEach((drink,i)=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.setAttribute('aria-label',`Show ${drink.dataset.name}`);
+    button.addEventListener('click',()=>setSlide(i,true));
+    selector.appendChild(button);
+  });
+}
+
+function classForOffset(offset){
+  if(offset===0)return 'is-active';
+  if(offset===-1||offset===drinks.length-1)return 'is-prev';
+  if(offset===1||offset===-(drinks.length-1))return 'is-next';
+  return offset<0?'is-far-prev':'is-far-next';
+}
+
+function setSlide(next,userAction=false){
+  index=(next+drinks.length)%drinks.length;
+  drinks.forEach((drink,i)=>{
+    const raw=i-index;
+    let offset=raw;
+    if(raw>drinks.length/2)offset=raw-drinks.length;
+    if(raw<-drinks.length/2)offset=raw+drinks.length;
+    drink.className=`drink ${classForOffset(offset)}`;
+  });
+  [...selector.children].forEach((b,i)=>b.classList.toggle('active',i===index));
+  const current=drinks[index];
+  ghostName.style.opacity='0';
+  ghostName.style.transform='translateX(28px)';
+  setTimeout(()=>{
+    ghostName.textContent=current.dataset.name.toUpperCase();
+    ghostName.style.opacity='1';
+    ghostName.style.transform='translateX(0)';
+  },150);
+  productDescription.textContent=current.dataset.description;
+  count.textContent=`${String(index+1).padStart(2,'0')} / ${String(drinks.length).padStart(2,'0')}`;
+  if(userAction)restartAuto();
+}
+
+function startAuto(){
+  if(reduced)return;
+  clearInterval(timer);
+  timer=setInterval(()=>setSlide(index+1),4200);
+}
+function stopAuto(){clearInterval(timer)}
+function restartAuto(){stopAuto();startAuto()}
+
+document.getElementById('prev').addEventListener('click',()=>setSlide(index-1,true));
+document.getElementById('next').addEventListener('click',()=>setSlide(index+1,true));
+
+track.addEventListener('pointerdown',e=>{
+  dragging=true;
+  dragStart=e.clientX;
+  track.setPointerCapture?.(e.pointerId);
+  stopAuto();
+});
+track.addEventListener('pointerup',e=>{
+  if(!dragging)return;
+  dragging=false;
+  const distance=e.clientX-dragStart;
+  if(Math.abs(distance)>45)setSlide(index+(distance<0?1:-1));
+  startAuto();
+});
+track.addEventListener('pointercancel',()=>{dragging=false;startAuto()});
+track.addEventListener('mouseenter',stopAuto);
+track.addEventListener('mouseleave',startAuto);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')setSlide(index+1,true);
+  if(e.key==='ArrowLeft')setSlide(index-1,true);
+  if(e.key==='Escape')closeStory();
+});
+
+const storyPanel=document.getElementById('storyPanel');
+function openStory(){storyPanel.classList.add('open');storyPanel.setAttribute('aria-hidden','false');stopAuto();}
+function closeStory(){storyPanel.classList.remove('open');storyPanel.setAttribute('aria-hidden','true');startAuto();}
+document.getElementById('storyOpen').addEventListener('click',openStory);
+document.getElementById('storyClose').addEventListener('click',closeStory);
+
+buildSelector();
+setSlide(0);
+startAuto();
