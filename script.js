@@ -11,11 +11,43 @@ openingStyle.textContent=`
 `;
 document.head.appendChild(openingStyle);
 
+const storyEnhanceStyle=document.createElement('style');
+storyEnhanceStyle.textContent=`
+.story-progress{position:fixed;left:0;top:0;height:3px;width:0;background:#d8c59a;z-index:260;box-shadow:0 0 14px #d8c59a88;transition:width .12s linear}.story-chapter-indicator{position:fixed;left:22px;top:50%;transform:translateY(-50%);z-index:240;display:flex;flex-direction:column;gap:8px;align-items:center;color:#f4efe6;pointer-events:none}.story-chapter-indicator .chapter-no{font:700 11px/1 Arial,sans-serif;letter-spacing:.16em;background:#063b2bd9;border:1px solid #f4efe638;border-radius:999px;padding:10px 11px;backdrop-filter:blur(10px)}.story-chapter-indicator .chapter-line{width:1px;height:54px;background:linear-gradient(#d8c59a,transparent)}.story-chapter-indicator .chapter-name{font:700 8px/1.3 Arial,sans-serif;letter-spacing:.18em;writing-mode:vertical-rl;text-transform:uppercase;background:#063b2bbd;border-radius:999px;padding:10px 7px}.story-scene{position:relative;isolation:isolate}.story-scene:before{content:"";position:absolute;inset:8vh -2vw;z-index:-1;border-radius:28px;background:linear-gradient(135deg,#ffffff78,#d8c5a430);opacity:0;transform:scale(.97);transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1)}.story-scene.active-scene:before{opacity:1;transform:scale(1)}.scene-image{position:relative}.scene-image:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#062c2248);pointer-events:none;opacity:.2;transition:opacity .6s ease}.story-scene.active-scene .scene-image:after{opacity:.75}.scene-copy h3{position:relative}.scene-copy h3:after{content:"";display:block;width:0;height:2px;background:#b28a4a;margin-top:22px;transition:width .9s cubic-bezier(.16,1,.3,1) .15s}.story-scene.active-scene .scene-copy h3:after{width:min(180px,42%)}.story-scene.active-scene .scene-image img{transform:translate3d(0,0,0) scale(1.075)!important;transition:transform 5s cubic-bezier(.16,1,.3,1)!important}.story-photo-hero:after{content:"SCROLL TO EXPLORE";position:absolute;right:4vw;bottom:4vh;z-index:3;font:800 8px/1 Arial,sans-serif;letter-spacing:.24em;color:#f4efe6aa;animation:storyPulse 1.8s ease-in-out infinite}.story-photo-hero:before{content:"";position:absolute;right:3.9vw;bottom:7.2vh;width:1px;height:42px;background:linear-gradient(#d8c59a,transparent);z-index:3}.story-philippines{position:relative}.story-philippines:after{content:"MANILA · MAKATI · 1997";position:absolute;right:6vw;top:8vh;font:800 9px/1 Arial,sans-serif;letter-spacing:.24em;color:#17372b73}.story-finale{position:relative;overflow:hidden}.story-finale:before{content:"";position:absolute;width:48vw;height:48vw;border:1px solid #d8c59a22;border-radius:50%;right:-15vw;top:-18vw;box-shadow:0 0 0 10vw #d8c59a08,0 0 0 20vw #d8c59a05}.story-cta{transition:transform .3s ease,color .3s ease}.story-cta:hover{transform:translateX(8px);color:#d8c59a}@keyframes storyPulse{50%{opacity:.35;transform:translateY(4px)}}
+@media(max-width:850px){.story-chapter-indicator{left:10px}.story-chapter-indicator .chapter-name,.story-chapter-indicator .chapter-line{display:none}.story-chapter-indicator .chapter-no{font-size:8px;padding:8px;background:#063b2bbb}.story-photo-hero:after,.story-photo-hero:before{display:none}.story-scene:before{inset:4vh -10px;border-radius:18px}.story-philippines:after{right:20px;top:24px;font-size:7px}.story-finale:before{width:90vw;height:90vw;right:-35vw;top:-18vw}}@media(prefers-reduced-motion:reduce){.story-progress{transition:none}.story-photo-hero:after{animation:none}.story-scene:before,.scene-copy h3:after,.scene-image:after{transition:none!important}.story-scene.active-scene .scene-image img{transition:none!important}}
+`;
+document.head.appendChild(storyEnhanceStyle);
+
+const progress=document.createElement('div');
+progress.className='story-progress';
+storyPanel?.appendChild(progress);
+const chapterIndicator=document.createElement('div');
+chapterIndicator.className='story-chapter-indicator';
+chapterIndicator.innerHTML='<span class="chapter-no">01</span><span class="chapter-line"></span><span class="chapter-name">THE BEAN</span>';
+storyPanel?.appendChild(chapterIndicator);
+
 const revealItems=[...document.querySelectorAll('.story-reveal')];
 const revealObserver=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('in-view')});
 },{root:storyPanel,threshold:.18});
 revealItems.forEach(item=>revealObserver.observe(item));
+
+const storyScenes=[...document.querySelectorAll('.story-scene')];
+const chapterNames=['THE BEAN','THE CRAFT','THE PEOPLE','THE THIRD PLACE'];
+const sceneObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      storyScenes.forEach(s=>s.classList.remove('active-scene'));
+      entry.target.classList.add('active-scene');
+      const i=storyScenes.indexOf(entry.target);
+      const no=chapterIndicator?.querySelector('.chapter-no');
+      const name=chapterIndicator?.querySelector('.chapter-name');
+      if(no)no.textContent=String(i+1).padStart(2,'0');
+      if(name)name.textContent=chapterNames[i]||'OUR STORY';
+    }
+  });
+},{root:storyPanel,threshold:.52});
+storyScenes.forEach(scene=>sceneObserver.observe(scene));
 
 const motionImages=[...document.querySelectorAll('.scene-image img')];
 const heroImage=document.querySelector('.story-photo-hero>img');
@@ -25,32 +57,37 @@ let rafPending=false;
 
 function updateStoryMotion(){
   rafPending=false;
-  if(!storyPanel.classList.contains('open')||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!storyPanel.classList.contains('open'))return;
+  const max=storyPanel.scrollHeight-storyPanel.clientHeight;
+  const pct=max>0?(storyPanel.scrollTop/max)*100:0;
+  if(progress)progress.style.width=`${pct}%`;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const panelRect=storyPanel.getBoundingClientRect();
   const viewportH=panelRect.height||window.innerHeight;
 
   if(heroImage){
     const y=Math.min(storyPanel.scrollTop,viewportH);
-    heroImage.style.transform=`scale(${1.02+y/viewportH*0.035}) translate3d(0,${y*0.06}px,0)`;
+    heroImage.style.transform=`scale(${1.02+y/viewportH*0.05}) translate3d(0,${y*0.075}px,0)`;
   }
   if(heroCopy){
     const y=Math.min(storyPanel.scrollTop,viewportH);
-    heroCopy.style.transform=`translate3d(0,${y*-0.035}px,0)`;
+    heroCopy.style.transform=`translate3d(0,${y*-0.05}px,0)`;
   }
 
   motionImages.forEach((img,index)=>{
+    if(img.closest('.story-scene')?.classList.contains('active-scene'))return;
     const box=img.parentElement.getBoundingClientRect();
     const center=box.top+box.height/2-panelRect.top;
-    const progress=(center-viewportH/2)/viewportH;
-    const drift=Math.max(-1,Math.min(1,progress))*22;
+    const progressValue=(center-viewportH/2)/viewportH;
+    const drift=Math.max(-1,Math.min(1,progressValue))*30;
     const dir=index%2===0?1:-1;
     img.style.transform=`translate3d(0,${drift*dir}px,0) scale(1.055)`;
   });
 
   if(philYear){
     const box=philYear.parentElement.getBoundingClientRect();
-    const progress=(box.top-panelRect.top)/viewportH;
-    const shift=Math.max(-30,Math.min(30,progress*35));
+    const progressValue=(box.top-panelRect.top)/viewportH;
+    const shift=Math.max(-38,Math.min(38,progressValue*42));
     philYear.style.transform=`translate3d(${shift}px,0,0)`;
   }
 }
@@ -83,6 +120,7 @@ function openStory(){
   storyPanel.setAttribute('aria-hidden','false');
   if(river)river.style.animationPlayState='paused';
   storyPanel.scrollTop=0;
+  if(progress)progress.style.width='0%';
   revealItems[0]?.classList.add('in-view');
   requestAnimationFrame(updateStoryMotion);
   playOpening();
@@ -93,6 +131,7 @@ function closeStory(){
   opening?.setAttribute('aria-hidden','true');
   storyPanel.classList.remove('open');
   storyPanel.setAttribute('aria-hidden','true');
+  storyScenes.forEach(s=>s.classList.remove('active-scene'));
   if(river)river.style.animationPlayState='running';
 }
 openingEnter?.addEventListener('click',e=>{e.stopPropagation();finishOpening()});
